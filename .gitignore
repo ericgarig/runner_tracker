@@ -1,0 +1,18 @@
+# Compiled #
+############
+*.pyc
+
+
+# DB #
+######
+*.db
+
+
+# Directories #
+###############
+flask/
+
+
+# OS Files #
+############
+.DS_Store

@@ -1,0 +1,77 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+	<h3>View Info - {{athlete.name_fl()}}</h3>
+	<div class="form-group">
+	<table>
+		<tr>
+			<td class="col-md-3 text-right">
+				<strong>Phone</strong>
+			</td>
+			<td>{{ athlete.phone_display() }}</td>
+		</tr>
+		<tr>
+			<td class="col-md-3 text-right">
+				<strong>Emergency Name</strong>
+			</td>
+			<td>{{ athlete.ice_name }}</td></td>
+		</tr>
+		<tr>
+			<td class="col-md-3 text-right">
+				<strong>Emergency Phone</strong>
+			</td>
+			<td>{{ athlete.ice_phone_display() }}</td>
+		</tr>
+	</table>
+
+	<br>
+
+	<a href="{{ url_for('edit_athlete', id=athlete.id) }}" class="btn btn-default">
+		<i class="fa fa-pencil"></i> Edit
+	</a>
+	<a href="{{ url_for('delete_athlete', id=athlete.id) }}" class="btn btn-danger">
+		<i class="fa fa-times"></i> Delete
+	</a>
+
+	<!-- show workouts -->
+	<hr>
+	{% if athlete.workouts().first() %}
+		<h3>
+			<a href="{{url_for('new_workout', id=athlete.id) }}" class="btn btn-default btn-xs">
+				<i class="fa fa-plus"></i>
+			</a>
+			 Workouts
+		</h3>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th class="col-md-2 text-right">Date:</th>
+					<th class="col-md-1 text-right">Miles</th>
+					<th class="col-md-1 text-right">Min/Mile</th>
+					<th class="col-md-1 text-right">Total Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for workout in athlete.workouts() %}
+					<tr>
+						<td class="col-md-2 text-right">
+							<a href="{{url_for('edit_workout', id=workout.id) }}" class="btn btn-secondary btn-xs">
+								<i class="fa fa-pencil"></i>
+							</a> {{ workout.date_display() }}
+						</td>
+						<td class="col-md-1 text-right">{{ workout.display_distance() }}</td>
+						<td class="col-md-1 text-right">{{ workout.display_speed() }}</td>
+						<td class="col-md-1 text-right">{{ workout.duration() }} {% if workout.duration() != '-' %}min{% endif %}</td>
+						<td class="col-md-7">
+							<a href="{{ url_for('delete_workout', id=workout.id) }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<p>{{ athlete.name_fl() }} does not have any workouts yet!</p>
+	{% endif %}
+
+{% endblock %}

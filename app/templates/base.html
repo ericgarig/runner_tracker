@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Erik Shagdar">
+		
+		<title>Runner Tracker</title>
+
+		<!-- Bootstrap Core -->
+		<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="../static/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<!-- navbar -->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="{{url_for('index')}}">Runner Tracker</a>
+				</div>
+				<div id="navbar" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="{{url_for('create_athlete')}}">New Athlete</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<hr>
+		<!-- errors -->
+		{% if error %}
+			<div class="container">
+				<span style="color: red;">[{{ error }}]</span>
+			</div>
+		{% endif %}
+		
+
+		<!-- messages -->
+		{% if get_flashed_messages() %}
+			<div class="container">
+				<ul>
+					{% for message in get_flashed_messages() %}
+						<li>{{ message }} </li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+		
+
+		<div class="container">
+			<!-- content -->
+			{% block content %}{% endblock %}
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
+
+		<!-- Include Required Prerequisites -->
+		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/latest/css/bootstrap.css" />
+ 
+ 		<!-- Include Date Range Picker -->
+ 		<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+ 		<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+		<script type="text/javascript">
+			$(function() {
+				$('input[name="date"]').daterangepicker({
+					singleDatePicker: true,
+					showDropdowns: true,
+					locale: {
+						format: 'YYYY-MM-DD'
+					}
+				});
+			});
+		</script>
+		
+	</body>
+</html>
