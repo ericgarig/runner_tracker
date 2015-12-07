@@ -29,8 +29,8 @@ def create_athlete():
 	if form.validate_on_submit():
 		new = Athlete(name_first=form.name_first.data,
 						name_last=form.name_last.data,
-						phone_number =form.phone_number.data,
-						ice_phone=form.ice_phone.data,
+						phone_number =convert_to_digits(form.phone_number.data),
+						ice_phone=convert_to_digits(form.ice_phone.data),
 						ice_name=form.ice_name.data)
 		db.session.add(new)
 		db.session.commit()
@@ -59,8 +59,8 @@ def edit_athlete(id):
 	if form.validate_on_submit():
 		athlete.name_first = form.name_first.data
 		athlete.name_last = form.name_last.data
-		athlete.phone_number = form.phone_number.data
-		athlete.ice_phone = form.ice_phone.data
+		athlete.phone_number = convert_to_digits(form.phone_number.data)
+		athlete.ice_phone = convert_to_digits(form.ice_phone.data)
 		athlete.ice_name = form.ice_name.data
 		db.session.commit()
 		flash('Athlete info updated.')
@@ -109,6 +109,7 @@ def edit_workout(id):
 		workout.distance = form.distance.data
 		workout.speed = form.speed.data
 		workout.date = form.date.data
+		workout.note = form.note.data
 		db.session.commit()
 		flash('Workout updated.')
 		return redirect(url_for('view_athlete', id=workout.athlete_id))
@@ -117,6 +118,7 @@ def edit_workout(id):
 		form.distance.data = workout.distance
 		form.speed.data = workout.speed
 		form.date.data = workout.date
+		form.note.data = workout.note
 	return render_template('workout.html', form=form, workout=workout)
 
 
@@ -127,3 +129,8 @@ def delete_workout(id):
 	db.session.commit()
 	flash('Workout deleted.')
 	return redirect(url_for('view_athlete', id=delete_workout.athlete_id))
+
+
+def convert_to_digits(str_of_digits_and_other_chars):
+	return ''.join(i for i in str_of_digits_and_other_chars if i.isdigit())
+

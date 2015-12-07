@@ -2,26 +2,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h3>View Info - {{athlete.name_fl()}}</h3>
+	<h3>{{athlete.name_lf()}}</h3>
 	<div class="form-group">
-	<table>
+	<table class="table table-condensed">
 		<tr>
-			<td class="col-md-3 text-right">
-				<strong>Phone</strong>
-			</td>
+			<td class="col-md-2 text-right"><strong>Phone</strong></td>
 			<td>{{ athlete.phone_display() }}</td>
 		</tr>
 		<tr>
-			<td class="col-md-3 text-right">
-				<strong>Emergency Name</strong>
-			</td>
-			<td>{{ athlete.ice_name }}</td></td>
+			<td class="col-md-2 text-right"><strong>Email</strong></td>
+			<td>{{ athlete.email if athlete.email !=None  }}</td>
 		</tr>
 		<tr>
-			<td class="col-md-3 text-right">
-				<strong>Emergency Phone</strong>
-			</td>
+			<td class="col-md-2 text-right"><strong>Address</strong></td>
+			<td>{{ athlete.address_string() if athlete.address_string() != None }}</td>
+		</tr>
+		<tr>
+			<td class="col-md-2 text-right"><strong>Date of Birth</strong></td>
+			<td>{{ athlete.date_birth if athlete.date_birth != None }}</td>
+		</tr>
+		<tr>
+			<td class="col-md-2 text-right"><strong>Disability</strong></td>
+			<td>{{ athlete.disability if athlete.disability != None }}</td>
+		</tr>
+		<tr>
+			<td class="col-md-2 text-right"><strong>Pace</strong></td>
+			<td>{{ athlete.pace if athlete.pace != None }}</td>
+		</tr>
+		<tr>
+			<td class="col-md-2 text-right"><strong>Emergency Name</strong></td>
+			<td>{{ athlete.ice_name if athlete.ice_name != None }}</td></td>
+		</tr>
+		<tr>
+			<td class="col-md-2 text-right"><strong>Emergency Phone</strong></td>
 			<td>{{ athlete.ice_phone_display() }}</td>
+		</tr>
+		<tr>
+			<td class="col-md-2 text-right"><strong>Note</strong></td>
+			<td>{{ athlete.note if athlete.note != None }}</td>
 		</tr>
 	</table>
 
@@ -46,10 +64,11 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
-					<th class="col-md-2 text-right">Date:</th>
-					<th class="col-md-1 text-right">Miles</th>
-					<th class="col-md-1 text-right">Min/Mile</th>
-					<th class="col-md-1 text-right">Total Time</th>
+					<th class="col-md-2 text-right">Date</th>
+					<th class="col-md-1 text-right">Distnace (miles)</th>
+					<th class="col-md-1 text-right">Speed (min/mile)</th>
+					<th class="col-md-1 text-right">Total Time (min)</th>
+					<th class="col-md-8">Note</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -60,11 +79,13 @@
 								<i class="fa fa-pencil"></i>
 							</a> {{ workout.date_display() }}
 						</td>
-						<td class="col-md-1 text-right">{{ workout.display_distance() }}</td>
-						<td class="col-md-1 text-right">{{ workout.display_speed() }}</td>
-						<td class="col-md-1 text-right">{{ workout.duration() }} {% if workout.duration() != '-' %}min{% endif %}</td>
-						<td class="col-md-7">
+						<td class="col-md-1 text-right">{{ workout.display_distance() if workout.display_distance() != None }}</td>
+						<td class="col-md-1 text-right">{{ workout.display_speed() if workout.display_speed() != None }}</td>
+						<td class="col-md-1 text-right">{{ workout.duration() if workout.duration() != None }}</td>
+						<td class="col-md-7">{{ workout.note if workout.note != None }}</td>
+						<td class="col-md-1">
 							<a href="{{ url_for('delete_workout', id=workout.id) }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></a>
+						</td>
 						</td>
 					</tr>
 				{% endfor %}
