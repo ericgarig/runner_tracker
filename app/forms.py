@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, HiddenField, DecimalField, DateField, TextAreaField, BooleanField
-from wtforms.validators import DataRequired, Optional, Length, NoneOf, NumberRange, Email
+from wtforms import BooleanField, DateField, DecimalField, HiddenField, StringField, TextAreaField
+from wtforms.validators import DataRequired, Email, Length, NoneOf, NumberRange, Optional
 from app.models import Athlete
 
 
@@ -8,7 +8,6 @@ class EditForm(Form):
 	id = HiddenField('id', validators=[DataRequired()])
 	name_first = StringField('name_first', validators=[DataRequired()])
 	name_last = StringField('name_last', validators=[DataRequired()])
-	name_nick = StringField('name_nick')
 	phone_number = StringField('phone_number')
 	email = StringField('email', validators=[Email(message='Not a valid email address')])
 	address_street = StringField('address_street')

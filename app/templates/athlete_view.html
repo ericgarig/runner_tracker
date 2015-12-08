@@ -27,8 +27,10 @@
 		</tr>
 		<tr>
 			<td class="col-md-2 text-right"><strong>Pace</strong></td>
-			<td>{{ athlete.pace if athlete.pace != None }}</td>
-		</tr>
+			<td>{{ athlete.pace if athlete.pace != None }}
+				{% if athlete.pace_avg() %} ( avg: {{ athlete.pace_avg() }} min/mile ){% endif %}
+			</td>
+		</tr>		
 		<tr>
 			<td class="col-md-2 text-right"><strong>Emergency Name</strong></td>
 			<td>{{ athlete.ice_name if athlete.ice_name != None }}</td></td>

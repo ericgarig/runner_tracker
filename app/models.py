@@ -1,4 +1,4 @@
-from app import db
+from app import db, bcrypt
 from sqlalchemy.sql import collate
 
 
@@ -6,7 +6,6 @@ class Athlete(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name_first = db.Column(db.String(64), index=True)
 	name_last = db.Column(db.String(64), index=True)
-	nickname = db.Column(db.String(64))
 	phone_number = db.Column(db.String(10), index=True)
 	ice_name = db.Column(db.String(64), index=True)
 	ice_phone = db.Column(db.String(10), index=True)
@@ -21,6 +20,9 @@ class Athlete(db.Model):
 	address_state = db.Column(db.String(2), index=True)
 	address_zip = db.Column(db.String(5), index=True)
 	is_handcrank = db.Boolean()
+
+	def __repr__(self):
+		return '<Athlete %r %r>' % (self.name_first, self.name_last)
 
 	def name_fl(self):
 		return '%s %s' % (self.name_first, self.name_last)
@@ -44,11 +46,11 @@ class Athlete(db.Model):
 			return None
 		else:
 			return '%s, %s, %s %s' % (
-					self.address_street if self.address_street != None else 'Unknown Street', 
-					self.address_city if self.address_city != None else 'Unknown City', 
-					self.address_state if self.address_state != None else 'Unknown State', 
-					self.address_zip if self.address_zip != None else 'Unknown Zip'
-					)
+				self.address_street if self.address_street != None else 'Unknown Street', 
+				self.address_city if self.address_city != None else 'Unknown City', 
+				self.address_state if self.address_state != None else 'Unknown State', 
+				self.address_zip if self.address_zip != None else 'Unknown Zip'
+				)
 
 
 	def list_athletes(self):
@@ -63,8 +65,17 @@ class Athlete(db.Model):
 			(Workout.athlete_id == Athlete.id)
 			).filter(Athlete.id==self.id).order_by(Workout.date.desc())
 
-	def __repr__(self):
-		return '<Athlete %r %r>' % (self.name_first, self.name_last)
+	def pace_avg(self):
+		workouts = Workout.query.join(
+			Athlete,Workout.athlete_id == Athlete.id).filter(
+			Athlete.id == self.id).filter(
+			Workout.speed != None ).filter(
+			Workout.distance != None )
+		return round(
+			(sum(one_workout.duration() for one_workout in workouts))/
+			(sum(one_workout.distance for one_workout in workouts))
+			,2) if workouts.first() != None else 0
+
 
 
 class Workout(db.Model):
@@ -74,6 +85,9 @@ class Workout(db.Model):
 	distance = db.Column(db.Float, index=True)
 	speed = db.Column(db.Float, index=True)
 	note = db.Column(db.Text, index=True)
+
+	def __repr__(self):
+		return '<Workout %r>' % (self.athlete_id)
 
 	def athlete_name(self):
 		return Athlete.query.get(self.athlete_id).name_fl()
@@ -88,8 +102,20 @@ class Workout(db.Model):
 		return self.speed if self.speed != None else None
 
 	def duration(self):
-		return self.distance * self.speed if self.distance != None and self.speed != None else None
+		return (self.distance * self.speed 
+			if self.distance != None and self.speed != None 
+			else None)
+
+
+
+class User(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String, nullable=False)
+	password = db.Column(db.String, nullable=False)
+
+	def __init__(self):
+		self.name = name
+		self.password = bcrypt.generate_password_hash(password)
 
 	def __repr__(self):
-		return '<Workout %r>' % (self.athlete_id)
-
+		return '<User %r>' % (self.name)

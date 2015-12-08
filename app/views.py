@@ -17,7 +17,7 @@ def internal_error(error):
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/athlete/list')
 def index():
 	athletes = Athlete.query.get(1)
 	return render_template('index.html', athletes=athletes)
@@ -30,8 +30,18 @@ def create_athlete():
 		new = Athlete(name_first=form.name_first.data,
 						name_last=form.name_last.data,
 						phone_number =convert_to_digits(form.phone_number.data),
+						email=form.email.data,
+						date_birth=form.date_birth.data,
+						disability=form.disability.data,
+						pace=form.pace.data,
+						address_street=form.address_street.data,
+						address_city=form.address_city.data,
+						address_state=form.address_state.data,
+						address_zip=form.address_zip.data,
+						ice_name=form.ice_name.data,
 						ice_phone=convert_to_digits(form.ice_phone.data),
-						ice_name=form.ice_name.data)
+						note=form.note.data
+						)
 		db.session.add(new)
 		db.session.commit()
 		flash('New athlete created.')
@@ -46,13 +56,13 @@ def create_athlete():
 	return render_template('athlete_create.html', form=form)
 
 
-@app.route('/view/<int:id>')
+@app.route('/athlete/<int:id>/view')
 def view_athlete(id):
 	athlete = Athlete.query.get(id)
 	return render_template('athlete_view.html', athlete=athlete)
 
 
-@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+@app.route('/athlete/<int:id>/edit', methods=['GET', 'POST'])
 def edit_athlete(id):
 	form = EditForm()
 	athlete = Athlete.query.get(id)
@@ -75,7 +85,7 @@ def edit_athlete(id):
 	return render_template('athlete_edit.html', form=form)
 
 
-@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/athlete/<int:id>/delete', methods=['GET', 'POST'])
 def delete_athlete(id):
 	form = DeleteForm()
 	athlete = Athlete.query.get(id)
@@ -92,7 +102,7 @@ def delete_athlete(id):
 	return render_template('athlete_delete.html', form=form, athlete=athlete)
 
 
-@app.route('/workout/<int:id>', methods=['GET', 'POST'])
+@app.route('/workout/create_for/<int:id>', methods=['GET', 'POST'])
 def new_workout(id):
 	new = Workout(athlete_id = Athlete.query.get(id).id, date = date.today())
 	db.session.add(new)
@@ -101,7 +111,7 @@ def new_workout(id):
 	return redirect(url_for('index'))
 
 
-@app.route('/edit_workout/<int:id>', methods=['GET', 'POST'])
+@app.route('/workout/<int:id>/edit', methods=['GET', 'POST'])
 def edit_workout(id):
 	form = WorkoutForm()
 	workout = Workout.query.get(id)
@@ -122,7 +132,7 @@ def edit_workout(id):
 	return render_template('workout.html', form=form, workout=workout)
 
 
-@app.route('/delete_workout/<int:id>', methods=['GET', 'POST'])
+@app.route('/workout/<int:id>/delete', methods=['GET', 'POST'])
 def delete_workout(id):
 	delete_workout = Workout.query.get(id)
 	db.session.delete(delete_workout)
