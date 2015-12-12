@@ -1,10 +1,14 @@
-from flask import render_template, flash, redirect, session, url_for, request
+from flask import render_template, flash, redirect, url_for, request
+from flask.ext.login import login_user, logout_user, login_required
 from datetime import date
-from app import app, db
-from .forms import EditForm, DeleteForm, WorkoutForm
-from .models import Athlete, Workout
+from app import app, bcrypt, db, lm
+from .forms import EditForm, DeleteForm, LoginForm, WorkoutForm
+from .models import Athlete, Workout, User
 
 
+# ##########################
+# ERRORS
+# ##########################
 @app.errorhandler(404)
 def not_found_error(error):
 	return render_template('404.html'), 404
@@ -16,14 +20,51 @@ def internal_error(error):
 	return render_template('500.html'), 500
 
 
+# ##########################
+# LOGINS
+# ##########################
+@lm.user_loader
+def load_user(id):
+	return User.query.get(int(id))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	error = ''
+	form = LoginForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(username=form.username.data).first()
+		if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
+			login_user(user)
+			flash('You were logged in.')
+			return redirect(url_for('index'))
+		else:
+			error = 'Invalid username or password.'
+	return render_template('login.html', form=form, error=error)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+	logout_user()
+	flash('You were logged out.')
+	return redirect(url_for('login'))
+
+
+# ##########################
+# ATHLETES
+# ##########################
+
 @app.route('/')
 @app.route('/athlete/list')
+@login_required
 def index():
 	athletes = Athlete.query.get(1)
 	return render_template('index.html', athletes=athletes)
 
 
 @app.route('/new', methods=['GET', 'POST'])
+@login_required
 def create_athlete():
 	form = EditForm()
 	if form.validate_on_submit():
@@ -57,12 +98,14 @@ def create_athlete():
 
 
 @app.route('/athlete/<int:id>/view')
+@login_required
 def view_athlete(id):
 	athlete = Athlete.query.get(id)
 	return render_template('athlete_view.html', athlete=athlete)
 
 
 @app.route('/athlete/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_athlete(id):
 	form = EditForm()
 	athlete = Athlete.query.get(id)
@@ -86,6 +129,7 @@ def edit_athlete(id):
 
 
 @app.route('/athlete/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete_athlete(id):
 	form = DeleteForm()
 	athlete = Athlete.query.get(id)
@@ -102,7 +146,11 @@ def delete_athlete(id):
 	return render_template('athlete_delete.html', form=form, athlete=athlete)
 
 
+# ##########################
+# WORKOUT
+# ##########################
 @app.route('/workout/create_for/<int:id>', methods=['GET', 'POST'])
+@login_required
 def new_workout(id):
 	new = Workout(athlete_id = Athlete.query.get(id).id, date = date.today())
 	db.session.add(new)
@@ -112,6 +160,7 @@ def new_workout(id):
 
 
 @app.route('/workout/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit_workout(id):
 	form = WorkoutForm()
 	workout = Workout.query.get(id)
@@ -133,6 +182,7 @@ def edit_workout(id):
 
 
 @app.route('/workout/<int:id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete_workout(id):
 	delete_workout = Workout.query.get(id)
 	db.session.delete(delete_workout)
@@ -141,6 +191,9 @@ def delete_workout(id):
 	return redirect(url_for('view_athlete', id=delete_workout.athlete_id))
 
 
+# ##########################
+# HELPER
+# ##########################
 def convert_to_digits(str_of_digits_and_other_chars):
 	return ''.join(i for i in str_of_digits_and_other_chars if i.isdigit())
 

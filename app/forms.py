@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import BooleanField, DateField, DecimalField, HiddenField, StringField, TextAreaField
+from wtforms import BooleanField, DateField, DecimalField, HiddenField, PasswordField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, NoneOf, NumberRange, Optional
 from app.models import Athlete
 
@@ -35,3 +35,9 @@ class WorkoutForm(Form):
 	distance = DecimalField('distance', validators=[DataRequired(), NumberRange(min=0.1)])
 	speed = DecimalField('speed', validators=[DataRequired(), NumberRange(min=0.1)])
 	note = TextAreaField('note')
+
+
+class LoginForm(Form):
+	username = StringField('username', validators=[DataRequired()])
+	password = PasswordField('password', validators=[DataRequired()])
+	

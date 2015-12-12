@@ -110,12 +110,29 @@ class Workout(db.Model):
 
 class User(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String, nullable=False)
 	password = db.Column(db.String, nullable=False)
+	username = db.Column(db.String)
 
-	def __init__(self):
-		self.name = name
+	def __init__(self, username, password):
+		self.username = username
 		self.password = bcrypt.generate_password_hash(password)
 
 	def __repr__(self):
-		return '<User %r>' % (self.name)
+		return '<User %r>' % (self.username)
+
+	@property
+	def is_authenticated(self):
+		return True
+
+	@property
+	def is_active(self):
+		return True
+
+	@property
+	def is_anonymous(self):
+		return False
+	
+	def get_id(self):
+	    return unicode(self.id)
+
+
