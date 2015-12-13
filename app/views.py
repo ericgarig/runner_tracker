@@ -56,65 +56,73 @@ def logout():
 # ##########################
 
 @app.route('/')
-@app.route('/athlete/list')
+@app.route('/athlete')
 @login_required
 def index():
-	athletes = Athlete.query.get(1)
+	athletes = Athlete.query.first()
 	return render_template('index.html', athletes=athletes)
 
 
-@app.route('/new', methods=['GET', 'POST'])
+@app.route('/athlete/new', methods=['GET', 'POST'])
 @login_required
 def create_athlete():
 	form = EditForm()
 	if form.validate_on_submit():
-		new = Athlete(name_first=form.name_first.data,
-						name_last=form.name_last.data,
-						phone_number =convert_to_digits(form.phone_number.data),
-						email=form.email.data,
-						date_birth=form.date_birth.data,
-						disability=form.disability.data,
-						pace=form.pace.data,
-						address_street=form.address_street.data,
-						address_city=form.address_city.data,
-						address_state=form.address_state.data,
-						address_zip=form.address_zip.data,
-						ice_name=form.ice_name.data,
-						ice_phone=convert_to_digits(form.ice_phone.data),
-						note=form.note.data
-						)
+		new = Athlete(
+				name_first=form.name_first.data,
+				name_last=form.name_last.data,
+				phone_number =convert_to_digits(form.phone_number.data),
+				email=form.email.data,
+				date_birth=form.date_birth.data,
+				address_street=form.address_street.data,
+				address_city=form.address_city.data,
+				address_state=form.address_state.data,
+				address_zip=form.address_zip.data,
+				ice_name=form.ice_name.data,
+				ice_phone=convert_to_digits(form.ice_phone.data),
+				pace=form.pace.data,
+				disability=form.disability.data,
+				note=form.note.data,
+				is_handcrank=form.is_handcrank.data
+				)
 		db.session.add(new)
 		db.session.commit()
 		flash('New athlete created.')
 		return redirect(url_for('index'))
 	else:
 		form.id.data = 0
-		form.name_first.data = ''
-		form.name_last.data = ''
-		form.phone_number.data = ''
-		form.ice_phone.data = ''
-		form.ice_name.data = ''
-	return render_template('athlete_create.html', form=form)
+	return render_template('athlete_edit.html', form=form)
 
 
-@app.route('/athlete/<int:id>/view')
+@app.route('/athlete/<int:id>')
 @login_required
 def view_athlete(id):
 	athlete = Athlete.query.get(id)
-	return render_template('athlete_view.html', athlete=athlete)
+	return render_template('athlete.html', athlete=athlete)
 
 
 @app.route('/athlete/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_athlete(id):
 	form = EditForm()
+	print form.data
 	athlete = Athlete.query.get(id)
 	if form.validate_on_submit():
 		athlete.name_first = form.name_first.data
 		athlete.name_last = form.name_last.data
 		athlete.phone_number = convert_to_digits(form.phone_number.data)
+		athlete.email = form.email.data
+		athlete.date_birth = form.date.data
+		athlete.address_street = form.address_street.data
+		athlete.address_city = form.address_city.data
+		athlete.address_state = form.address_state.data
+		athlete.address_zip = form.address_zip.data
 		athlete.ice_phone = convert_to_digits(form.ice_phone.data)
 		athlete.ice_name = form.ice_name.data
+		athlete.pace = form.pace.data
+		athlete.disability = form.disability.data
+		athlete.note = form.note.data
+		athlete.is_handcrank = form.is_handcrank.data
 		db.session.commit()
 		flash('Athlete info updated.')
 		return redirect(url_for('view_athlete', id=athlete.id))
@@ -123,8 +131,18 @@ def edit_athlete(id):
 		form.name_first.data = athlete.name_first
 		form.name_last.data = athlete.name_last
 		form.phone_number.data = athlete.phone_number
+		form.email.data = athlete.email
+		form.date.data = athlete.date_birth
+		form.address_street.data = athlete.address_street
+		form.address_city.data = athlete.address_city
+		form.address_state.data = athlete.address_state
+		form.address_zip.data = athlete.address_zip
 		form.ice_phone.data = athlete.ice_phone
 		form.ice_name.data = athlete.ice_name
+		form.pace.data = athlete.pace
+		form.disability.data = athlete.disability
+		form.note.data = athlete.note
+		form.is_handcrank.data = athlete.is_handcrank
 	return render_template('athlete_edit.html', form=form)
 
 
@@ -149,7 +167,7 @@ def delete_athlete(id):
 # ##########################
 # WORKOUT
 # ##########################
-@app.route('/workout/create_for/<int:id>', methods=['GET', 'POST'])
+@app.route('/workout/<int:id>/new', methods=['GET', 'POST'])
 @login_required
 def new_workout(id):
 	new = Workout(athlete_id = Athlete.query.get(id).id, date = date.today())

@@ -7,19 +7,19 @@ class Athlete(db.Model):
 	name_first = db.Column(db.String(64), index=True)
 	name_last = db.Column(db.String(64), index=True)
 	phone_number = db.Column(db.String(10), index=True)
-	ice_name = db.Column(db.String(64), index=True)
-	ice_phone = db.Column(db.String(10), index=True)
-	workouts = db.relationship('Workout', backref='athlete', lazy='dynamic')
-	note = db.Column(db.Text, index=True)
-	date_birth = db.Column(db.Date, index=True)
 	email = db.Column(db.String(64), index=True)
-	disability = db.Column(db.String(64), index=True)
-	pace = db.Column(db.Float, index=True)
+	date_birth = db.Column(db.Date, index=True)
 	address_street = db.Column(db.String(64), index=True)
 	address_city = db.Column(db.String(64), index=True)
 	address_state = db.Column(db.String(2), index=True)
 	address_zip = db.Column(db.String(5), index=True)
-	is_handcrank = db.Boolean()
+	ice_name = db.Column(db.String(64), index=True)
+	ice_phone = db.Column(db.String(10), index=True)
+	disability = db.Column(db.String(64), index=True)
+	pace = db.Column(db.Float, index=True)
+	note = db.Column(db.Text, index=True)
+	is_handcrank = db.Column(db.Boolean, index=True)
+	workouts = db.relationship('Workout', backref='athlete', lazy='dynamic')
 
 	def __repr__(self):
 		return '<Athlete %r %r>' % (self.name_first, self.name_last)
@@ -39,22 +39,31 @@ class Athlete(db.Model):
 			return '(%s) %s-%s' % (self.ice_phone[:3], self.ice_phone[3:6], self.ice_phone[6:] )
 
 	def address_string(self):
-		if (self.address_street == None and 
-				self.address_city == None and 
-				self.address_state == None and 
-				self.address_zip == None):
+		if (not self.address_street and 
+				not self.address_city and 
+				not self.address_state and 
+				not self.address_zip
+				):
 			return None
 		else:
 			return '%s, %s, %s %s' % (
-				self.address_street if self.address_street != None else 'Unknown Street', 
-				self.address_city if self.address_city != None else 'Unknown City', 
-				self.address_state if self.address_state != None else 'Unknown State', 
-				self.address_zip if self.address_zip != None else 'Unknown Zip'
+				self.address_street if not self.address_street else 'Unknown Street', 
+				self.address_city if not self.address_city else 'Unknown City', 
+				self.address_state if not self.address_state else 'Unknown State', 
+				self.address_zip if not self.address_zip else 'Unknown Zip'
 				)
 
 
 	def list_athletes(self):
-		return Athlete.query.order_by(
+		return Athlete.query.filter(
+			Athlete.is_handcrank != True).order_by(
+			collate(Athlete.name_first, 'NOCASE'), 
+			collate(Athlete.name_last, 'NOCASE')
+			).all()
+
+	def list_crankers(self):
+		return Athlete.query.filter(
+			Athlete.is_handcrank == True).order_by(
 			collate(Athlete.name_first, 'NOCASE'), 
 			collate(Athlete.name_last, 'NOCASE')
 			).all()
@@ -71,10 +80,13 @@ class Athlete(db.Model):
 			Athlete.id == self.id).filter(
 			Workout.speed != None ).filter(
 			Workout.distance != None )
-		return round(
-			(sum(one_workout.duration() for one_workout in workouts))/
-			(sum(one_workout.distance for one_workout in workouts))
-			,2) if workouts.first() != None else 0
+		print workouts.first()
+		print workouts.first().duration()
+		print workouts.first().distance
+		print workouts.first().speed
+		if workouts.first() != None:
+			return round((sum(one_workout.duration() for one_workout in workouts))/(sum(one_workout.distance for one_workout in workouts)),2)
+		return None
 
 
 
@@ -96,15 +108,13 @@ class Workout(db.Model):
 		return self.date.strftime("%a, %m/%d/%y")
 
 	def display_distance(self):
-		return self.distance if self.distance != None else None
+		return self.distance if self.distance else None
 
 	def display_speed(self):
-		return self.speed if self.speed != None else None
+		return self.speed if self.speed else None
 
 	def duration(self):
-		return (self.distance * self.speed 
-			if self.distance != None and self.speed != None 
-			else None)
+		return (self.distance * self.speed if self.distance and self.speed else None)
 
 
 

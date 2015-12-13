@@ -2,7 +2,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h3>{{athlete.name_lf()}}</h3>
+	<h3>
+		{{athlete.name_lf()}}
+		{% if athlete.is_handcrank %}
+		 [HC]
+		{% endif %}
+	</h3>
 	<div class="form-group">
 	<table class="table table-condensed">
 		<tr>
@@ -11,15 +16,15 @@
 		</tr>
 		<tr>
 			<td class="col-md-2 text-right"><strong>Email</strong></td>
-			<td>{{ athlete.email if athlete.email !=None  }}</td>
-		</tr>
-		<tr>
-			<td class="col-md-2 text-right"><strong>Address</strong></td>
-			<td>{{ athlete.address_string() if athlete.address_string() != None }}</td>
+			<td>{{ athlete.email if athlete.email != None  }}</td>
 		</tr>
 		<tr>
 			<td class="col-md-2 text-right"><strong>Date of Birth</strong></td>
 			<td>{{ athlete.date_birth if athlete.date_birth != None }}</td>
+		</tr>
+		<tr>
+			<td class="col-md-2 text-right"><strong>Address</strong></td>
+			<td>{{ athlete.address_string() if athlete.address_string() != None }}</td>
 		</tr>
 		<tr>
 			<td class="col-md-2 text-right"><strong>Disability</strong></td>
