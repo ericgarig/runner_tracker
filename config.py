@@ -1,4 +1,6 @@
 import os
+import local_settings
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
@@ -6,4 +8,4 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 WTF_CSRF_ENABLED = True
-SECRET_KEY = os.environ.get('FLASK_SECRET_RT')
+SECRET_KEY = local_settings.SECRET_KEY
