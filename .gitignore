@@ -1,6 +1,7 @@
 # Directories #
 ###############
 flask/
+venv/
 
 
 # Compiled #
