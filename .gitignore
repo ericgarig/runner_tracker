@@ -1,3 +1,8 @@
+# Directories #
+###############
+flask/
+
+
 # Compiled #
 ############
 *.pyc
@@ -6,11 +11,6 @@
 # DB #
 ######
 *.db
-
-
-# Directories #
-###############
-flask/
 
 
 # OS Files #

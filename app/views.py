@@ -37,7 +37,7 @@ def login():
 		if user is not None and bcrypt.check_password_hash(user.password, form.password.data):
 			login_user(user)
 			flash('You were logged in.')
-			return redirect(url_for('index'))
+			return redirect(url_for('list_athlete'))
 		else:
 			error = 'Invalid username or password.'
 	return render_template('login.html', form=form, error=error)
@@ -56,11 +56,15 @@ def logout():
 # ##########################
 
 @app.route('/')
+def index():
+	return redirect(url_for('login'))
+
+
 @app.route('/athlete')
 @login_required
-def index():
+def list_athlete():
 	athletes = Athlete.query.first()
-	return render_template('index.html', athletes=athletes)
+	return render_template('athlete_list.html', athletes=athletes)
 
 
 @app.route('/athlete/new', methods=['GET', 'POST'])
@@ -88,7 +92,7 @@ def create_athlete():
 		db.session.add(new)
 		db.session.commit()
 		flash('New athlete created.')
-		return redirect(url_for('index'))
+		return redirect(url_for('list_athlete'))
 	else:
 		form.id.data = 0
 	return render_template('athlete_edit.html', form=form)
@@ -157,7 +161,7 @@ def delete_athlete(id):
 			db.session.delete(athlete)
 			db.session.commit()
 			flash('%s  has been removed.' % (deleted_name))
-			return redirect(url_for('index'))
+			return redirect(url_for('list_athlete'))
 		else:
 			form.id.data = id
 			flash('Please type in the first and last name to confirm delering of %s.' % (athlete.name_fl()))
@@ -174,7 +178,7 @@ def new_workout(id):
 	db.session.add(new)
 	db.session.commit()
 	flash('Workout added.')
-	return redirect(url_for('index'))
+	return redirect(url_for('list_athlete'))
 
 
 @app.route('/workout/<int:id>/edit', methods=['GET', 'POST'])
