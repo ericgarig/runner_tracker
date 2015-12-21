@@ -4,6 +4,11 @@ flask/
 venv/
 
 
+# OS Files #
+############
+.DS_Store
+
+
 # Compiled #
 ############
 *.pyc
@@ -14,6 +19,6 @@ venv/
 *.db
 
 
-# OS Files #
+# settings #
 ############
-.DS_Store
+local_settings.py
