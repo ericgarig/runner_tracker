@@ -80,10 +80,6 @@ class Athlete(db.Model):
 			Athlete.id == self.id).filter(
 			Workout.speed != None ).filter(
 			Workout.distance != None )
-		print workouts.first()
-		print workouts.first().duration()
-		print workouts.first().distance
-		print workouts.first().speed
 		if workouts.first() != None:
 			return round((sum(one_workout.duration() for one_workout in workouts))/(sum(one_workout.distance for one_workout in workouts)),2)
 		return None

@@ -79,7 +79,7 @@ def create_athlete():
 				name_last=form.name_last.data,
 				phone_number =convert_to_digits(form.phone_number.data),
 				email=form.email.data,
-				date_birth=form.date_birth.data,
+				date_birth=date_if_older_than_decade(form.date.data),
 				address_street=form.address_street.data,
 				address_city=form.address_city.data,
 				address_state=form.address_state.data,
@@ -118,7 +118,7 @@ def edit_athlete(id):
 		athlete.name_last = form.name_last.data
 		athlete.phone_number = convert_to_digits(form.phone_number.data)
 		athlete.email = form.email.data
-		athlete.date_birth = form.date.data
+		athlete.date_birth = date_if_older_than_decade(form.date.data)
 		athlete.address_street = form.address_street.data
 		athlete.address_city = form.address_city.data
 		athlete.address_state = form.address_state.data
@@ -221,3 +221,8 @@ def delete_workout(id):
 def convert_to_digits(str_of_digits_and_other_chars):
 	return ''.join(i for i in str_of_digits_and_other_chars if i.isdigit())
 
+def date_if_older_than_decade(iso_date_str='1900-01-01'):
+	current_year = date.today().year
+	if iso_date_str.year + 10 < current_year and iso_date_str.year != 1900:
+		return iso_date_str
+	return None
