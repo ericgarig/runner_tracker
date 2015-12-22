@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for, request
-from flask.ext.login import login_user, logout_user, login_required
+from flask.ext.login import current_user, login_user, logout_user, login_required
 from datetime import date
 from app import app, bcrypt, db, lm
 from .forms import EditForm, DeleteForm, LoginForm, WorkoutForm
@@ -57,6 +57,8 @@ def logout():
 
 @app.route('/')
 def index():
+	if current_user.is_authenticated:
+		return redirect(url_for('list_athlete'))
 	return redirect(url_for('login'))
 
 
