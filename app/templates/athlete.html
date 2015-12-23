@@ -12,7 +12,7 @@
 	<table class="table table-condensed">
 		<tr>
 			<td class="col-md-2 text-right"><strong>Phone</strong></td>
-			<td>{{ athlete.phone_display() }}</td>
+			<td>{{ athlete.phone_display() if athlete.phone_display() != None }}</td>
 		</tr>
 		<tr>
 			<td class="col-md-2 text-right"><strong>Email</strong></td>
@@ -42,7 +42,7 @@
 		</tr>
 		<tr>
 			<td class="col-md-2 text-right"><strong>Emergency Phone</strong></td>
-			<td>{{ athlete.ice_phone_display() }}</td>
+			<td>{{ athlete.ice_phone_display()if athlete.ice_phone_display() != None }}</td>
 		</tr>
 		<tr>
 			<td class="col-md-2 text-right"><strong>Note</strong></td>
