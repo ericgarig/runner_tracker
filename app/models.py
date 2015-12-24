@@ -47,10 +47,10 @@ class Athlete(db.Model):
 			return None
 		else:
 			return '%s, %s, %s %s' % (
-				self.address_street if not self.address_street else 'Unknown Street', 
-				self.address_city if not self.address_city else 'Unknown City', 
-				self.address_state if not self.address_state else 'Unknown State', 
-				self.address_zip if not self.address_zip else 'Unknown Zip'
+				self.address_street if self.address_street else 'Unknown Street', 
+				self.address_city if self.address_city else 'Unknown City', 
+				self.address_state if self.address_state else 'unknown-state', 
+				self.address_zip if self.address_zip else 'unknown-zip'
 				)
 
 
