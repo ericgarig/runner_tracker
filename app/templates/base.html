@@ -22,7 +22,11 @@
 		<!-- errors -->
 		{% if error %}
 			<div class="container">
-				<span style="color: red;">[{{ error }}]</span>
+			<ul>
+				{% for e in error %}
+					<li style="color: red;">{{ e }}</li>
+				{% endfor %}
+			</ul>
 			</div>
 		{% endif %}
 		

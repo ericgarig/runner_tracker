@@ -30,7 +30,7 @@ def load_user(id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-	error = ''
+	error = []
 	form = LoginForm()
 	if form.validate_on_submit():
 		user = User.query.filter_by(username=form.username.data).first()
@@ -39,7 +39,9 @@ def login():
 			flash('You were logged in.')
 			return redirect(url_for('list_athlete'))
 		else:
-			error = 'Invalid username or password.'
+			error.append('Invalid username or password.')
+	else:
+		error = form.errors.values()
 	return render_template('login.html', form=form, error=error)
 
 
@@ -97,7 +99,8 @@ def create_athlete():
 		return redirect(url_for('list_athlete'))
 	else:
 		form.id.data = 0
-	return render_template('athlete_edit.html', form=form)
+		error = form.errors.values()
+	return render_template('athlete_edit.html', form=form, error=error)
 
 
 @app.route('/athlete/<int:id>')
@@ -149,7 +152,8 @@ def edit_athlete(id):
 		form.disability.data = athlete.disability
 		form.note.data = athlete.note
 		form.is_handcrank.data = athlete.is_handcrank
-	return render_template('athlete_edit.html', form=form)
+		error = form.errors.values()
+	return render_template('athlete_edit.html', form=form, error=error)
 
 
 @app.route('/athlete/<int:id>/delete', methods=['GET', 'POST'])
@@ -167,7 +171,8 @@ def delete_athlete(id):
 		else:
 			form.id.data = id
 			flash('Please type in the first and last name to confirm delering of %s.' % (athlete.name_fl()))
-	return render_template('athlete_delete.html', form=form, athlete=athlete)
+			error = form.errors.values()
+	return render_template('athlete_delete.html', form=form, athlete=athlete, error=error)
 
 
 # ##########################
@@ -202,7 +207,8 @@ def edit_workout(id):
 		form.speed.data = workout.speed
 		form.date.data = workout.date
 		form.note.data = workout.note
-	return render_template('workout.html', form=form, workout=workout)
+		error = form.errors.values()
+	return render_template('workout.html', form=form, workout=workout, error=error)
 
 
 @app.route('/workout/<int:id>/delete', methods=['GET', 'POST'])

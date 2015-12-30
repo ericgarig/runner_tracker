@@ -5,6 +5,7 @@
 <h3>{{ 'Create' if form.id.data == 0 else 'Update' }} New Athlete</h3>
 <form action="" method="post" name="edit">
 	{{form.hidden_tag()}}
+
 	<div class="form-group row">
 		{{form.name_first.label(class_="col-sm-2 form-control-label text-right")}}
 		<div class="col-sm-10">{{ form.name_first(class_="col-sm-10 form-control", placeholder="Jane") }}</div>
@@ -12,6 +13,7 @@
 	<div class="form-group row">
 		{{form.name_last.label(class_="col-sm-2 form-control-label text-right")}}
 		<div class="col-sm-10">{{ form.name_last(class_="col-sm-10 form-control", placeholder="Doe") }}</div>
+		{{form.name_last.errors if form.name_last.errors}}
 	</div>
 	<div class="form-group row">
 		{{form.phone_number.label(class_="col-sm-2 form-control-label text-right")}}
@@ -55,7 +57,7 @@
 	</div>
 	<div class="form-group row">
 		{{form.disability.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.disability(class_="col-sm-10 form-control", placeholder="Blind") }}</div>
+		<div class="col-sm-10">{{ form.disability(class_="col-sm-10 form-control", placeholder="Enter disability...") }}</div>
 	</div>
 	<div class="form-group row">
 		{{form.note.label(class_="col-sm-2 form-control-label text-right")}}
