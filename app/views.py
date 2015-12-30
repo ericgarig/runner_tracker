@@ -88,6 +88,7 @@ def create_athlete():
 				address_zip=form.address_zip.data,
 				ice_name=form.ice_name.data,
 				ice_phone=convert_to_digits(form.ice_phone.data),
+				ice_email=form.ice_email.data,
 				pace=form.pace.data,
 				disability=form.disability.data,
 				note=form.note.data,
@@ -128,6 +129,7 @@ def edit_athlete(id):
 		athlete.address_zip = form.address_zip.data
 		athlete.ice_phone = convert_to_digits(form.ice_phone.data)
 		athlete.ice_name = form.ice_name.data
+		athlete.ice_email = form.ice_email.data
 		athlete.pace = form.pace.data
 		athlete.disability = form.disability.data
 		athlete.note = form.note.data
@@ -148,6 +150,7 @@ def edit_athlete(id):
 		form.address_zip.data = athlete.address_zip
 		form.ice_phone.data = athlete.ice_phone
 		form.ice_name.data = athlete.ice_name
+		form.ice_email.data = athlete.ice_email
 		form.pace.data = athlete.pace
 		form.disability.data = athlete.disability
 		form.note.data = athlete.note

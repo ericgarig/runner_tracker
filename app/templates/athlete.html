@@ -45,6 +45,10 @@
 			<td>{{ athlete.ice_phone_display()if athlete.ice_phone_display() != None }}</td>
 		</tr>
 		<tr>
+			<td class="col-md-2 text-right"><strong>Emergency Email</strong></td>
+			<td>{{ athlete.ice_email if athlete.ice_email != None }}</td></td>
+		</tr>
+		<tr>
 			<td class="col-md-2 text-right"><strong>Note</strong></td>
 			<td>{{ athlete.note if athlete.note != None }}</td>
 		</tr>
@@ -72,7 +76,7 @@
 			<thead>
 				<tr>
 					<th class="col-md-2 text-right">Date</th>
-					<th class="col-md-1 text-right">Distnace (miles)</th>
+					<th class="col-md-1 text-right">Distance (miles)</th>
 					<th class="col-md-1 text-right">Speed (min/mile)</th>
 					<th class="col-md-1 text-right">Total Time (min)</th>
 					<th class="col-md-8">Note</th>

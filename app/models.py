@@ -15,8 +15,10 @@ class Athlete(db.Model):
 	address_zip = db.Column(db.String(5), index=True)
 	ice_name = db.Column(db.String(64), index=True)
 	ice_phone = db.Column(db.String(10), index=True)
+	ice_email = db.Column(db.String(64), index=True)
 	disability = db.Column(db.String(64), index=True)
-	pace = db.Column(db.Float, index=True)
+	pace = db.Column(db.String(64), index=True)
+	shirt_size = db.Column(db.String(5), index=True)
 	note = db.Column(db.Text, index=True)
 	is_handcrank = db.Column(db.Boolean, index=True)
 	workouts = db.relationship('Workout', backref='athlete', lazy='dynamic')
@@ -52,7 +54,6 @@ class Athlete(db.Model):
 				self.address_state if self.address_state else 'unknown-state', 
 				self.address_zip if self.address_zip else 'unknown-zip'
 				)
-
 
 	def list_athletes(self):
 		return Athlete.query.filter(

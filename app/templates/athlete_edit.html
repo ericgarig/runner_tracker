@@ -13,7 +13,6 @@
 	<div class="form-group row">
 		{{form.name_last.label(class_="col-sm-2 form-control-label text-right")}}
 		<div class="col-sm-10">{{ form.name_last(class_="col-sm-10 form-control", placeholder="Doe") }}</div>
-		{{form.name_last.errors if form.name_last.errors}}
 	</div>
 	<div class="form-group row">
 		{{form.phone_number.label(class_="col-sm-2 form-control-label text-right")}}
@@ -21,7 +20,7 @@
 	</div>
 	<div class="form-group row">
 		{{form.email.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.email(class_="col-sm-10 form-control", placeholder="my-email@domain.com") }}</div>
+		<div class="col-sm-10">{{ form.email(class_="col-sm-10 form-control", placeholder="JaneD@gmail.com") }}</div>
 	</div>
 	<div class="form-group row">
 		{{form.date.label(class_="col-sm-2 form-control-label text-right")}}
@@ -52,8 +51,12 @@
 		<div class="col-sm-10">{{ form.ice_phone(class_="col-sm-10 form-control", placeholder="0987654321") }}</div>
 	</div>
 	<div class="form-group row">
+		{{form.ice_email.label(class_="col-sm-2 form-control-label text-right")}}
+		<div class="col-sm-10">{{ form.ice_email(class_="col-sm-10 form-control", placeholder="JohnDoe@gmail.com") }}</div>
+	</div>
+	<div class="form-group row">
 		{{form.pace.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.pace(class_="col-sm-10 form-control", placeholder="7.5") }}</div>
+		<div class="col-sm-10">{{ form.pace(class_="col-sm-10 form-control", placeholder="7:30") }}</div>
 	</div>
 	<div class="form-group row">
 		{{form.disability.label(class_="col-sm-2 form-control-label text-right")}}
@@ -61,7 +64,7 @@
 	</div>
 	<div class="form-group row">
 		{{form.note.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.note(class_="col-sm-10 form-control", placeholder="Something intersting goes here...") }}</div>
+		<div class="col-sm-10">{{ form.note(class_="col-sm-10 form-control", placeholder="Something interesting goes here...") }}</div>
 	</div>
 	<div class="form-group row">
 		<div class="col-sm-offset-2 col-sm-10">
