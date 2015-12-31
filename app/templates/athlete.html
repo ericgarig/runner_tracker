@@ -37,16 +37,18 @@
 			</td>
 		</tr>		
 		<tr>
-			<td class="col-md-2 text-right"><strong>Emergency Name</strong></td>
-			<td>{{ athlete.ice_name if athlete.ice_name != None }}</td></td>
-		</tr>
-		<tr>
-			<td class="col-md-2 text-right"><strong>Emergency Phone</strong></td>
-			<td>{{ athlete.ice_phone_display()if athlete.ice_phone_display() != None }}</td>
-		</tr>
-		<tr>
-			<td class="col-md-2 text-right"><strong>Emergency Email</strong></td>
-			<td>{{ athlete.ice_email if athlete.ice_email != None }}</td></td>
+			<td class="col-md-2 text-right"><strong>Emergency Contact</strong></td>
+			<td>
+				{{ athlete.ice_name if athlete.ice_name != None }}
+				{% if athlete.ice_phone_display() %}
+					<br>
+					{{ athlete.ice_phone_display() }}
+				{% endif %}
+				{% if athlete.ice_email %}
+					<br>
+					{{ athlete.ice_email }}
+				{% endif%}
+			</td>
 		</tr>
 		<tr>
 			<td class="col-md-2 text-right"><strong>Note</strong></td>
