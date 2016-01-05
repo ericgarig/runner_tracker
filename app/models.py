@@ -23,8 +23,30 @@ class Athlete(db.Model):
 	is_handcrank = db.Column(db.Boolean, index=True)
 	workouts = db.relationship('Workout', backref='athlete', lazy='dynamic')
 
+	def __init__(self, name_first, name_last, phone_number=None, email=None, date_birth=None, 
+		address_street=None, address_city=None, address_state=None, address_zip=None, 
+		ice_name=None, ice_phone=None, ice_email=None, disability=None, pace=None, 
+		shirt_size=None, note=None, is_handcrank=0):
+		self.name_first = name_first
+		self.name_last = name_last
+		self.phone_number = phone_number
+		self.email = email
+		self.date_birth = date_birth
+		self.address_street = address_street
+		self.address_city = address_city
+		self.address_state = address_state
+		self.address_zip = address_zip
+		self.ice_name = ice_name
+		self.ice_phone = ice_phone
+		self.ice_email = ice_email
+		self.disability = disability
+		self.pace = pace
+		self.shirt_size = shirt_size
+		self.note = note
+		self.is_handcrank = is_handcrank
+
 	def __repr__(self):
-		return '<Athlete %r %r>' % (self.name_first, self.name_last)
+		return '<Athlete - %r %r>' % (self.name_first, self.name_last)
 
 	def name_fl(self):
 		return '%s %s' % (self.name_first, self.name_last)
@@ -95,8 +117,15 @@ class Workout(db.Model):
 	speed = db.Column(db.Float, index=True)
 	note = db.Column(db.Text, index=True)
 
+	def __init__(self, athlete_id, date, distance=None, speed=None, note=None):
+		self.athlete_id = athlete_id
+		self.date = date
+		self.distance = distance
+		self.speed = speed
+		self.note = note
+
 	def __repr__(self):
-		return '<Workout %r>' % (self.athlete_id)
+		return '<Workout - %r>' % (self.athlete_id)
 
 	def athlete_name(self):
 		return Athlete.query.get(self.athlete_id).name_fl()
@@ -117,15 +146,15 @@ class Workout(db.Model):
 
 class User(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	password = db.Column(db.String, nullable=False)
 	username = db.Column(db.String)
+	password = db.Column(db.String, nullable=False)
 
 	def __init__(self, username, password):
 		self.username = username
 		self.password = bcrypt.generate_password_hash(password)
 
 	def __repr__(self):
-		return '<User %r>' % (self.username)
+		return '<User - %r>' % (self.username)
 
 	@property
 	def is_authenticated(self):
