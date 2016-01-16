@@ -4,81 +4,115 @@
 {% block content %}
 <h3>{{ 'Create' if form.id.data == 0 else 'Update' }} New Athlete</h3>
 <form action="" method="post" name="edit">
-	{{form.hidden_tag()}}
+  {{form.hidden_tag()}}
 
-	<div class="form-group row">
-		{{form.name_first.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.name_first(class_="col-sm-10 form-control", placeholder="Jane") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.name_last.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.name_last(class_="col-sm-10 form-control", placeholder="Doe") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.phone_number.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.phone_number(class_="col-sm-10 form-control", placeholder="1234567890") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.email.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.email(class_="col-sm-10 form-control", placeholder="JaneD@gmail.com") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.date.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.date(class_="col-sm-10 form-control") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.address_street.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.address_street(class_="col-sm-10 form-control", placeholder="123 Fake St.") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.address_city.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.address_city(class_="col-sm-10 form-control", placeholder="Fakeville") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.address_state.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.address_state(class_="col-sm-10 form-control", placeholder="ME") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.address_zip.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.address_zip(class_="col-sm-10 form-control", placeholder="12345") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.ice_name.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.ice_name(class_="col-sm-10 form-control", placeholder="John Doe") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.ice_phone.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.ice_phone(class_="col-sm-10 form-control", placeholder="0987654321") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.ice_email.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.ice_email(class_="col-sm-10 form-control", placeholder="JohnDoe@gmail.com") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.pace.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.pace(class_="col-sm-10 form-control", placeholder="7:30") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.disability.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.disability(class_="col-sm-10 form-control", placeholder="Enter disability...") }}</div>
-	</div>
-	<div class="form-group row">
-		{{form.note.label(class_="col-sm-2 form-control-label text-right")}}
-		<div class="col-sm-10">{{ form.note(class_="col-sm-10 form-control", placeholder="Something interesting goes here...") }}</div>
-	</div>
-	<div class="form-group row">
-		<div class="col-sm-offset-2 col-sm-10">
-			<div class="checkbox">
-				<label>{{ form.is_handcrank(class_="checkbox") }}Handcrank?</label>
-			</div>
-		</div>
-	</div>
+  <div class="form-group row">
+    {{form.name_first.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.name_first(class_="col-sm-10 form-control", placeholder="Jane") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.name_last.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.name_last(class_="col-sm-10 form-control", placeholder="Doe") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.phone_number.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.phone_number(class_="col-sm-10 form-control", placeholder="1234567890") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.email.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.email(class_="col-sm-10 form-control", placeholder="JaneD@gmail.com") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.date.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.date(class_="col-sm-10 form-control") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.address_street.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.address_street(class_="col-sm-10 form-control", placeholder="123 Fake St.") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.address_city.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.address_city(class_="col-sm-10 form-control", placeholder="Fakeville") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.address_state.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.address_state(class_="col-sm-10 form-control", placeholder="ME") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.address_zip.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.address_zip(class_="col-sm-10 form-control", placeholder="12345") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.ice_name.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.ice_name(class_="col-sm-10 form-control", placeholder="John Doe") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.ice_phone.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.ice_phone(class_="col-sm-10 form-control", placeholder="0987654321") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.ice_email.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.ice_email(class_="col-sm-10 form-control", placeholder="JohnDoe@gmail.com") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.pace.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.pace(class_="col-sm-10 form-control", placeholder="7:30") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.disability.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.disability(class_="col-sm-10 form-control", placeholder="Enter disability...") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    {{form.note.label(class_="col-sm-2 form-control-label text-right")}}
+    <div class="col-sm-10">
+      {{ form.note(class_="col-sm-10 form-control", placeholder="Something interesting goes here...") }}
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          {{ form.is_handcrank(class_="checkbox") }}Handcrank?
+        </label>
+      </div>
+    </div>
+  </div>
 
-	<div class="form-group row">
-		<div class="col-sm-offset-2 col-sm-10">
-			<button type="submit" class="btn btn-primary">{{ 'Create' if form.id.data == 0 else 'Update' }}</button>
-		</div>
-	</div>
+  <div class="form-group row">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">
+        {{ 'Create' if form.id.data == 0 else 'Update' }}
+      </button>
+    </div>
+  </div>
 </form>
 
 {% endblock %}

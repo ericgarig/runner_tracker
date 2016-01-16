@@ -3,33 +3,48 @@
 
 {% block content %}
 
-<h3>Athletes:<a href="{{url_for('create_athlete') }}" class="btn btn-default btn-sm pull-right"><i class="fa fa-plus"></i> New</a></h3>
+<h3>Athletes:
+  <a href="{{url_for('create_athlete') }}" class="btn btn-default btn-sm pull-right">
+      <i class="fa fa-plus"></i> New
+  </a>
+</h3>
+
 {% if athletes %}
-	{% if athletes.list_athletes() %}
-	<h5>AWD</h5>
-		<ul class="list-group">
-			{% for athlete in athletes.list_athletes() %}
-				<li class="list-group-item">
-					<a href="{{url_for('view_athlete', id=athlete.id) }}">{{athlete.name_fl()}}</a>
-					<a href="{{url_for('new_workout', id=athlete.id) }}" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i></a>
-				</li>
-			{% endfor %}
-		</ul>
-	{% endif %}
-	
-	{% if athletes.list_crankers() %}
-	<h5>Handcycles:</h5>
-		<ul class="list-group">
-			{% for athlete in athletes.list_crankers() %}
-				<li class="list-group-item">
-					<a href="{{url_for('view_athlete', id=athlete.id) }}">{{athlete.name_fl()}}</a>
-					<a href="{{url_for('new_workout', id=athlete.id) }}" class="btn btn-primary btn-xs pull-right"><i class="fa fa-plus"></i></a>
-				</li>
-			{% endfor %}
-		</ul>
-	{% endif %}
+
+  {% if athletes.list_athletes() %}
+  <h5>AWD</h5>
+    <ul class="list-group">
+      {% for athlete in athletes.list_athletes() %}
+        <li class="list-group-item">
+          <a href="{{url_for('view_athlete', id=athlete.id) }}">
+            {{athlete.name_fl()}}
+          </a>
+          <a href="{{url_for('new_workout', id=athlete.id) }}" class="btn btn-primary btn-xs pull-right">
+            <i class="fa fa-plus"></i>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  {% if athletes.list_crankers() %}
+  <h5>Handcycles:</h5>
+    <ul class="list-group">
+      {% for athlete in athletes.list_crankers() %}
+        <li class="list-group-item">
+          <a href="{{url_for('view_athlete', id=athlete.id) }}">
+            {{athlete.name_fl()}}
+          </a>
+          <a href="{{url_for('new_workout', id=athlete.id) }}" class="btn btn-primary btn-xs pull-right">
+            <i class="fa fa-plus"></i>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
 {% else %}
-	<p>There are no athletes. <a href="{{url_for('create_athlete') }}">Create</a> one now
+  <p>There are no athletes. <a href="{{url_for('create_athlete') }}">Create</a> one now
 {% endif %}
 
 {% endblock %}

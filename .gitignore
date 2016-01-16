@@ -1,5 +1,6 @@
 # Directories #
 ###############
+coverage/
 flask/
 venv/
 
